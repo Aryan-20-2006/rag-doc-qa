@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
+import fitz #pymupdf
 
 app=FastAPI()
 
@@ -8,8 +9,18 @@ def root():
 
 @app.post("/upload")
 async def upload_file(file:UploadFile=File(...)):
+    
+    contents=await file.read()
+    pdf=fitz.open(stream=contents, filetype='pdf')
+    
+    text=""
+    for page in pdf:
+        text+=page.get_text()
+    
+    
     return{
         "filename":file.filename,
-        "content_type":file.content_type,
-        "message":"File uploaded successfully"
+        "pages":pdf.page_count,
+        "text_preview":text[:500],
+        "full_text":text
     }
