@@ -1,5 +1,8 @@
 from fastapi import FastAPI, UploadFile, File
 import fitz #pymupdf
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+
 
 app=FastAPI()
 
@@ -16,11 +19,19 @@ async def upload_file(file:UploadFile=File(...)):
     text=""
     for page in pdf:
         text+=page.get_text()
+        
+        
+    splitter=RecursiveCharacterTextSplitter(
+        chunk_size=500,
+        chunk_overlap=50
+    )
+    
+    chunks=splitter.split_text(text)
     
     
     return{
         "filename":file.filename,
         "pages":pdf.page_count,
-        "text_preview":text[:500],
-        "full_text":text
-    }
+        "total_chunks":len(chunks),
+        "preview":chunks[:3]
+        }
