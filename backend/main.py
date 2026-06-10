@@ -1,37 +1,60 @@
 from fastapi import FastAPI, UploadFile, File
-import fitz #pymupdf
+import fitz
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import FAISS
+from langchain.embeddings.base import Embeddings
+from google import genai
+from dotenv import load_dotenv
+import os
+from typing import List
 
+load_dotenv()
 
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-app=FastAPI()
+class GeminiEmbeddings(Embeddings):
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        result = client.models.embed_content(
+            model="models/gemini-embedding-001",
+            contents=texts
+        )
+        return [e.values for e in result.embeddings]
+
+    def embed_query(self, text: str) -> List[float]:
+        result = client.models.embed_content(
+            model="models/gemini-embedding-001",
+            contents=[text]
+        )
+        return result.embeddings[0].values
+
+app = FastAPI()
+embeddings_model = GeminiEmbeddings()
 
 @app.get("/")
 def root():
-    return {"message":"RAG backend is running"}
+    return {"message": "RAG backend is running"}
 
 @app.post("/upload")
-async def upload_file(file:UploadFile=File(...)):
+async def upload_file(file: UploadFile = File(...)):
+    contents = await file.read()
+    pdf = fitz.open(stream=contents, filetype="pdf")
     
-    contents=await file.read()
-    pdf=fitz.open(stream=contents, filetype='pdf')
-    
-    text=""
+    text = ""
     for page in pdf:
-        text+=page.get_text()
-        
-        
-    splitter=RecursiveCharacterTextSplitter(
+        text += page.get_text()
+
+    splitter = RecursiveCharacterTextSplitter(
         chunk_size=500,
         chunk_overlap=50
     )
-    
-    chunks=splitter.split_text(text)
-    
-    
-    return{
-        "filename":file.filename,
-        "pages":pdf.page_count,
-        "total_chunks":len(chunks),
-        "preview":chunks[:3]
-        }
+    chunks = splitter.split_text(text)
+
+    vectorstore = FAISS.from_texts(chunks, embeddings_model)
+    vectorstore.save_local("faiss_index")
+
+    return {
+        "filename": file.filename,
+        "pages": pdf.page_count,
+        "total_chunks": len(chunks),
+        "message": "Document embedded and indexed successfully"
+    }
