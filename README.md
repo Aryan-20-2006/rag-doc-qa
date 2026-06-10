@@ -13,7 +13,7 @@ FastAPI · PyMuPDF · LangChain · FAISS · OpenAI GPT-4o-mini · HTML/JS
 - [x] FastAPI server + file upload
 - [x] PDF text extraction
 - [X] Text chunking
-- [ ] Embeddings + FAISS
+- [X] Embeddings + FAISS
 - [ ] /ask endpoint
 - [ ] Frontend
 - [ ] Deployment
