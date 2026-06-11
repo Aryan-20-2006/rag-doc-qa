@@ -14,7 +14,7 @@ FastAPI · PyMuPDF · LangChain · FAISS · Google Gemini · HTML/JS
 - [x] PDF text extraction
 - [x] Text chunking
 - [x] Embeddings + FAISS vector store
-- [ ] /ask endpoint
+- [X] /ask endpoint
 - [ ] Frontend
 - [ ] Deployment
 
