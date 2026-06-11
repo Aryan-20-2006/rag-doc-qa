@@ -7,14 +7,14 @@ Upload a PDF, ask questions in plain English, get answers pulled directly from t
 ---
 
 ## Tech Stack
-FastAPI · PyMuPDF · LangChain · FAISS · OpenAI GPT-4o-mini · HTML/JS
+FastAPI · PyMuPDF · LangChain · FAISS · Google Gemini · HTML/JS
 
 ## Status
 - [x] FastAPI server + file upload
 - [x] PDF text extraction
-- [X] Text chunking
-- [ ] Embeddings + FAISS
-- [ ] /ask endpoint
+- [x] Text chunking
+- [x] Embeddings + FAISS vector store
+- [X] /ask endpoint
 - [ ] Frontend
 - [ ] Deployment
 
@@ -24,6 +24,9 @@ cd backend
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-uvicorn main:app --reload
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
 ```
-Visit `http://localhost:8000/docs` to test.
+Visit `http://127.0.0.1:8000/docs` to test.
+
+## Environment Variables
+Create a `.env` file in the `backend/` folder:
