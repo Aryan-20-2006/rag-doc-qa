@@ -8,6 +8,8 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from google import genai
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.respones import FileResponse
 import os
 from typing import List
 
@@ -34,6 +36,12 @@ class Question(BaseModel):
     question: str
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="../frontend"), name="static")
+
+@app.get("/app")
+def serve_frontend():
+    return FileResponse("../frontend/index.html")
 
 app.add_middleware(
     CORSMiddleware,
