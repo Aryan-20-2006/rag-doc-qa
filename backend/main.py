@@ -7,6 +7,7 @@ from langchain.embeddings.base import Embeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from google import genai
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 import os
 from typing import List
 
@@ -33,6 +34,14 @@ class Question(BaseModel):
     question: str
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 embeddings_model = GeminiEmbeddings()
 llm=ChatGoogleGenerativeAI(
     model="gemini-2.5-flash-lite",
