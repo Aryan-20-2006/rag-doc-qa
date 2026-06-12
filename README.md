@@ -15,8 +15,8 @@ FastAPI · PyMuPDF · LangChain · FAISS · Google Gemini · HTML/JS
 - [x] Text chunking
 - [x] Embeddings + FAISS vector store
 - [X] /ask endpoint
-- [ ] Frontend
-- [ ] Deployment
+- [X] Frontend
+- [X] Deployment
 
 ## Run Locally
 ```bash
