@@ -9,7 +9,7 @@ from google import genai
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.respones import FileResponse
+from fastapi.responses import FileResponse
 import os
 from typing import List
 
