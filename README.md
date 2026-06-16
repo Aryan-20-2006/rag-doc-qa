@@ -7,7 +7,7 @@ Built by Aryan Burman · PES University Bengaluru · SDE Internship Portfolio Pr
 
 
 ## Live Demo
-https://traceai-aryan.onrender.com/app
+https://rag-doc-qa-aryan.onrender.com/app
 
 
 How it works
