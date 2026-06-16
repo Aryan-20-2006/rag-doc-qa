@@ -1,22 +1,19 @@
-# RAG Document Q&A Engine
+TraceAI
 
-Upload a PDF, ask questions in plain English, get answers pulled directly from the document. No hallucination — if the answer isn't in the doc, it says so.
+Ask questions about any PDF and get answers sourced directly from the document — with citations, no hallucination. If the answer isn't in the doc, it says so.
 
-> Built by Aryan Burman · PES University Bengaluru · SDE Internship Portfolio Project
 
-## Live Demo
+Built by Aryan Burman · PES University Bengaluru · SDE Internship Portfolio Project
+
+
+
+Live Demo
+
 https://rag-doc-qa-aryan.onrender.com/app
 
----
 
-## Tech Stack
-FastAPI · PyMuPDF · LangChain · FAISS · Google Gemini · HTML/JS
+How it works
 
----
-
-## How it works
-
-```
 User uploads a PDF
         ↓
 FastAPI extracts text using PyMuPDF
@@ -32,39 +29,45 @@ User asks a question
 FAISS finds the most relevant chunks
         ↓
 Gemini generates a grounded answer from those chunks
-```
+        ↓
+Answer returned with source citations
 
----
 
-## Run Locally
+What makes it different
 
-```bash
-cd backend
+Most AI chatbots generate answers from general knowledge — they can hallucinate and you can't verify where the answer came from. TraceAI only answers from your document, and returns the exact source chunks it used to generate the answer. Every response is traceable.
+
+
+Tech Stack
+
+LayerTechnologyBackend frameworkFastAPIPDF parsingPyMuPDFText chunkingLangChainEmbeddings + LLMGoogle GeminiVector storeFAISSFrontendHTML / Vanilla JSDeploymentRender
+
+
+Run Locally
+
+bashgit clone https://github.com/Aryan-20-2006/rag-doc-qa.git
+cd rag-doc-qa/backend
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn main:app --reload --host 127.0.0.1 --port 8000
-```
 
-Visit `http://127.0.0.1:8000/app` to use the app locally.
+Visit http://127.0.0.1:8000/app to use the app locally.
 
----
 
-## Environment Variables
+Environment Variables
 
-Create a `.env` file in the `backend/` folder:
+Create a .env file inside the backend/ folder:
 
-```
 GEMINI_API_KEY=your_gemini_api_key_here
-```
 
-Never commit your `.env` file.
+Never commit your .env file.
 
 
----
+Author
 
-## Author
+Aryan Burman — CS Engineer & Game Developer
 
-**Aryan Burman** — CS Engineer & Game Developer  
-PES University Electronic City, Bengaluru  
-[GitHub](https://github.com/Aryan-20-2006)
+PES University Electronic City, Bengaluru
+
+GitHub
